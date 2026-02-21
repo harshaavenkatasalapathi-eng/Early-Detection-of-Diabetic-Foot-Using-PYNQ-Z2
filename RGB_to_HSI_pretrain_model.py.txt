@@ -60,12 +60,6 @@ class SSRDataset(Dataset):
         hsi = torch.tensor(hsi).permute(2,0,1).float()
 
         return rgb, hsi
-    
-
-    
-
-     
-
 
 # ============================================================
 # 3️⃣ CNN MODEL (SSR NETWORK)
@@ -125,7 +119,6 @@ for epoch in range(epochs):
 torch.save(model.state_dict(), "ssr_model.pth")
 print("Model Saved!")
 
-
 # ============================================================
 # 5️⃣ TEST RGB → HYPERSPECTRAL
 # ============================================================
@@ -156,7 +149,6 @@ print("Predicted cube saved!")
 plt.imshow(pred[:,:,10], cmap='gray')
 plt.title("Predicted Spectral Band 10")
 plt.show()
-
 spectrum = pred[100,100,:]
 plt.plot(spectrum)
 plt.title("Spectral Signature")
