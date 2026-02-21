@@ -176,3 +176,4 @@ Real-time diabetic foot screening system providing early risk indication using F
 ---
 
 ## Technologies Used
+;;;;;; we will add finally
