@@ -23,19 +23,8 @@ The system is implemented on the **PYNQ-Z2 FPGA**, enabling fast and efficient e
 
 ##  Workflow
 
-RGB Image
-↓
-Preprocessing (Resize, Normalize)
-↓
-CNN Model (RGB → Hyperspectral Reconstruction)
-↓
-Spectral Feature Extraction
-↓
-Biomedical Analysis (Hb, StO₂, Perfusion)
-↓
-Risk Assessment
-↓
-Clinical Report Generation
+<img width="840" height="606" alt="image" src="https://github.com/user-attachments/assets/a5910285-332f-4042-af14-4fb0c8fdd5dd" />
+
 
 ---
 
