@@ -10,6 +10,10 @@ A **CNN-based model** reconstructs multispectral information from RGB images and
 
 The system is implemented on the **PYNQ-Z2 FPGA**, enabling fast and efficient edge-based medical analysis.
 
+
+<img width="1000" height="642" alt="image" src="https://github.com/user-attachments/assets/bafb10a3-30aa-4fc8-a5ad-1bc470480641" />
+
+
 ---
 
 ##  Objectives
