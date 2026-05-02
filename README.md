@@ -1,179 +1,104 @@
 # Early-Detection-of-Diabetic-Foot-Using-PYNQ-Z2
-FPGA-Based Spectral Super-Resolution of RGB Images for Early Detection of Diabetic Foot using PYNQ-Z2
-## System Workflow
 
-RGB Capture → Spectral Reconstruction → Band Selection → Spectral Analysis  
-→ Tissue Classification → Risk Heatmap → Embedded Output
+##  Overview
+This project presents a **low-cost, real-time system** for early detection of **Diabetic Foot Ulcers (DFU)** using standard RGB images.
 
----
+A **CNN-based model** reconstructs multispectral information from RGB images and extracts biomedical features like:
+- Haemoglobin (Hb)
+- Oxygen Saturation (StO₂)
+- Tissue Perfusion
 
-## Stage 1: RGB Image Acquisition (Camera Input)
-
-Runs On: ARM Processor (PS) — Python + OpenCV  
-Purpose: Capture visible image of the patient’s foot.
-
-### Input
-- Live USB camera image or stored RGB image.
-
-### Processing
-- Resize image to required model size (e.g., 224×224).
-- Normalize pixel values to range 0–1.
-- Convert image into tensor format for AI model.
-
-### Output
-Preprocessed RGB Image (224×224×3)
-
-### Why This Stage?
-Hyperspectral cameras are costly. This stage enables spectral simulation using a standard RGB camera.
+The system is implemented on the **PYNQ-Z2 FPGA**, enabling fast and efficient edge-based medical analysis.
 
 ---
 
-## Stage 2: Spectral Super-Resolution (SSR Network)
-
-Runs On: Initially PC for training, then accelerated on FPGA (PL).
-
-Purpose: Convert RGB image into pseudo-hyperspectral cube.
-
-### Input
-RGB Image (H×W×3)
-
-### Processing
-- CNN model (SSRNet) reconstructs hidden spectral reflectance.
-- Learns mapping from RGB to spectral domain.
-
-RGB → 31 Spectral Bands
-
-### Output
-Spectral Cube (H×W×31)  
-Example: 224×224×31 tensor
-
-### Why Needed?
-Diabetic tissue variations are visible in:
-- Oxygen absorption characteristics
-- Water content variation
-- Hemoglobin reflectance
-
-These features cannot be observed in RGB alone.
+##  Objectives
+- Convert RGB images into multispectral data using CNN
+- Extract biomedical features (Hb, StO₂, Perfusion)
+- Perform **zone-wise analysis** (Toe, Mid, Heel)
+- Generate **risk heatmaps and clinical reports**
+- Deploy on FPGA for **real-time processing**
 
 ---
 
-## Stage 3: FSFDA — Feature and Spectral Band Selection
-
-Runs On: ARM Processor (Software Optimization)
-
-Purpose: Remove redundant wavelengths and retain medically relevant spectral bands.
-
-### Input
-31-Band Spectral Cube
-
-### Processing
-- Analyze spectral importance.
-- Select only diagnostically useful wavelengths.
-
-Example:
-31 Bands → Select 6 Critical Bands
-
-### Output
-Reduced Spectral Cube (H×W×6)
-
-### Why This Stage?
-Reduces:
-- FPGA computation load
-- Memory usage
-- Power consumption
-
-Enables efficient embedded implementation.
+##  Workflow
 
 ---
 
-## Stage 4: Lightweight SpecTr (Spectral Attention Module)
+##   System Architecture
+- **Processing System (PS - ARM)**
+  - Image acquisition
+  - Preprocessing
+  - Control
 
-Runs On: Hybrid (ARM + FPGA)
+- **Programmable Logic (PL - FPGA)**
+  - CNN Accelerator (SSRNet)
+  - Spectral reconstruction
 
-Purpose: Learn relationships between spectral bands.
-
-### Input
-Selected Spectral Bands (H×W×6)
-
-### Processing
-- Attention-based learning of spectral correlations.
-- Identifies abnormal tissue characteristics such as:
-  - Poor oxygenation
-  - Infection onset
-  - Tissue stress
-
-### Output
-Spectrally Enhanced Feature Map
-
-### Why Needed?
-Disease signatures are reflected in relationships between spectral bands rather than a single wavelength.
+- **Communication**
+  - AXI SmartConnect
+  - M_AXI / S_AXI interfaces
 
 ---
 
-## Stage 5: DCCN Classification Network
+##  Hardware
+- **Board**: PYNQ-Z2 (ZYNQ-7020)
+- **Architecture**: ARM + FPGA (PS + PL)
+- **Acceleration**: CNN implemented using HLS
 
-Runs On: FPGA (PL Accelerator)
+---
+ 
 
-Purpose: Classify tissue condition.
-
-### Input
-Spectral Feature Tensor
-
-### Processing
-CNN classifier predicts:
-- Normal
-- At-Risk
-- Ulcer Formation
-
-Uses fixed-point arithmetic and parallel FPGA convolution.
-
-### Output
-Risk Probability Map (H×W×1)
+##  Dataset
+- **Primary**: Diabetic Foot Ulcer Dataset (Kaggle)
+- **Additional**: DFU 2020 Challenge Dataset
+ 
+##  Real Data Acquisition
+- Device: **Micasense RedEdge-P Multispectral Camera**
+- Used for capturing real multispectral reference data
 
 ---
 
-## Stage 6: Risk Heatmap Generation
+## 🧪 Results
+The system provides:
+- ✅ Risk Heatmaps
+- ✅ Zone-wise Analysis (Toe, Mid, Heel)
+- ✅ Clinical Summary Reports
 
-Runs On: ARM Processor (Visualization)
-
-Purpose: Convert predictions into interpretable diagnostic output.
-
-### Input
-- Risk Probability Map
-- Original RGB Image
-
-### Processing
-Overlay prediction heatmap using OpenCV.
-
-Color Mapping:
-- Green → Healthy Tissue
-- Yellow → Early Risk
-- Red → Critical Region
-
-### Output
-Final Diagnostic Image
+### Example
+- Normal Foot → Low Risk  
+- Ulcer Foot → High Risk (Clinical Attention Required)
 
 ---
 
-## Stage 7: Embedded Deployment on PYNQ-Z2
-
-The system runs fully on-board as a real-time edge AI device.
-
-| Component | Runs On |
-|----------|---------|
-Camera Interface | ARM (PS)
-SSR CNN | FPGA (PL)
-Band Selection | ARM
-Spectral Attention | Hybrid
-DCCN Classifier | FPGA (PL)
-Visualization | ARM
+## 🚀 Key Features
+- Low-cost alternative to hyperspectral imaging
+- Real-time FPGA-based processing
+- Edge AI healthcare solution
+- Explainable zone-wise risk analysis
+- Automated clinical report generation
 
 ---
 
-## Final Output
-Real-time diabetic foot screening system providing early risk indication using FPGA-accelerated AI.
+##  Conclusion
+- Developed a complete end-to-end DFU detection system
+- Implemented CNN-based spectral reconstruction on FPGA
+- Achieved real-time biomedical analysis
+- Validated using datasets and real-world data
 
 ---
 
-## Technologies Used
-;;;;;; we will add finally
+##  Future Work
+- Improve model accuracy with larger datasets
+- Add mobile/web dashboard
+- Real-time camera integration
+- Deploy as a portable healthcare device
+
+---
+
+##  Authors
+- Harshaa V  
+- Dasarath B  
+- Dinakarvel B  
+- Janvi Kanakan  
+- Sivaguru K  
