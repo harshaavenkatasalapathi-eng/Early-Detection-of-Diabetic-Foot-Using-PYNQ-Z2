@@ -42,6 +42,9 @@ The system is implemented on the **PYNQ-Z2 FPGA**, enabling fast and efficient e
   - AXI SmartConnect
   - M_AXI / S_AXI interfaces
 
+<img width="1381" height="247" alt="image" src="https://github.com/user-attachments/assets/de82866a-adb9-4e8a-8c8b-555a560e1cf3" />
+
+
 ---
 
 ##  Hardware
